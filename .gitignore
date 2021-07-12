@@ -1,0 +1,11 @@
+/target/
+.idea
+/libs
+/logs
+/sqlData
+
+# Project exclude paths
+/*/target/
+/mylady-leadnews-admin-gateway/target/
+
+# git config core.excludesfile .gitignore

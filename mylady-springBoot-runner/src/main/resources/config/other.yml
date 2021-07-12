@@ -1,0 +1,17 @@
+
+{
+  'hello':
+    {'hp':67, 'sp':12, 'level':33},
+  orc:
+    {'hp':67, 'sp':12, 'level':33},
+}
+
+- name: PyYAML
+  status: 4
+  license: MIT
+  language: Python
+
+- name: PySyck
+  status: 5
+  license: BSD
+  language: Python

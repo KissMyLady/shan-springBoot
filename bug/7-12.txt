@@ -1,0 +1,7 @@
+2021-07-12 02:39:23,705|67
+|DEBUG|M: afterPropertiesSet|262 row:
+    No tk.mybatis.spring.mapper.MapperFactoryBean found.
+
+找不到 MapperFactoryBean
+
+警告, java版本高了, 添加 --illegal-access=deny --add-opens java.base/java.lang=ALL-UNNAMED
