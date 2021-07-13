@@ -16,6 +16,7 @@
         <module>mylady-springBoot-admin</module>
         <module>mylady-service-provider</module>
         <module>mylady-service-consumer</module>
+        <module>mylady-springCloud-zuul</module>
     </modules>
     
     <!-- 继承Spring boot工程 -->
