@@ -4,8 +4,12 @@ import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
+import org.springframework.cloud.openfeign.FeignClientsConfiguration;
+import org.springframework.context.annotation.Import;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import top.mylady.consumer.client.UserClient;
@@ -20,6 +24,11 @@ public class UserCtrl {
 
     private static final Logger logger = LoggerFactory.getLogger(UserCtrl.class);
 
+    @GetMapping("/test")
+    public String test(){
+        return "Conusmer 测试成功, 返回String类型字符串";
+    }
+
     @Autowired
     private RestTemplate restTemplate;
 
@@ -29,21 +38,23 @@ public class UserCtrl {
     @GetMapping("/get")
     public User queryUserById(@RequestParam(value="id", required=true)  Long id){
         User user = restTemplate.getForObject("http://127.0.0.1:8003/user/get?id="+id, User.class);
+        //User user = new User();
         return user;
     }
 
-    //@Autowired
-    //private UserClient userClient;
+    @Autowired
+    private UserClient userClient;
 
     /*
     * http://127.0.0.1:8004/consumer/user/feign?id=28
     * */
-//    @GetMapping("/feign")
-//    @ResponseBody
-//    public User feignProxy(@RequestParam(value="id", required=true)  Long id){
-//        User user = userClient.queryUserById(id);
-//        return user;
-//    }
+    @GetMapping("/feign")
+    @ResponseBody
+    public User feignProxy(@RequestParam(value="id", required=false)  Long id){
+        System.out.println("进入到feign测试逻辑区, 打印传递的id: "+ id);
+        User user = this.userClient.feignQueryUserById(id);
+        return user;
+    }
 
     @GetMapping("/geteureka")
     @ResponseBody
@@ -74,11 +85,13 @@ public class UserCtrl {
             ServiceInstance instance = instances.get(0);
             String baseUrl = "http://"+ instance.getHost()+ ":"+ instance.getPort()+ "/user/get?id="+ id;
             logger.debug("打印拼接的url: "+ baseUrl);
-            User user = restTemplate.getForObject(baseUrl, User.class);
+            //User user = restTemplate.getForObject(baseUrl, User.class);
+            User user = new User();
             return user;
         }else {
             String reqUrl = "http://127.0.0.1:8003/user/get?id=28";
-            User user = restTemplate.getForObject(reqUrl, User.class);
+            //User user = restTemplate.getForObject(reqUrl, User.class);
+            User user = new User();
             return user;
         }
 

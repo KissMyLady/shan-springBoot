@@ -22,4 +22,7 @@ public class UserService {
         return this.userMapper.queryUserById(id);
     }
 
+    public User feignQueryUserById(Long id){
+        return this.userMapper.queryUserById(id);
+    }
 }
